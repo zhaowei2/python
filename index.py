@@ -17,9 +17,9 @@ firstMenu = []
 def urllib_download(mkdir,url,i):
   try:
     print(url)
-    # r = requests.get(url,headers=headers)
-    # with open(mkdir+'\\'+str(i)+".jpg","wb") as code:
-    #   code.write(r.content)
+    r = requests.get(url,headers=headers)
+    with open(mkdir+'\\'+str(i)+".jpg","wb") as code:
+      code.write(r.content)
   except IOError:
     print('erro')     
 def imgsrc(mkdir,url,maxNum):
@@ -71,7 +71,7 @@ def downlownLen(mkdir,url):
     print('erro')         
 def returnThreeImg(url):
   try:
-    threeResponse = requests.get(aSrc,headers=headers)
+    threeResponse = requests.get(url,headers=headers)
     threeContent = threeResponse.content.decode('utf-8')
     threeCop = BeautifulSoup(threeContent,'lxml')
     if(threeCop!=None):
@@ -89,10 +89,14 @@ def returnThreeImg(url):
     print('erro')          
 def returnSecondImg(url,num):
   try:
-    for i in range(1,num):
+    for i in range(1,num+1):
       if(i==1):
+        print('1----------------------------')
+        print(url)
         returnThreeImg(url)
       else:
+        print('url----------------------------')
+        print(url + str(i))
         returnThreeImg(url + str(i))
   except IOError:  
     print('error')
@@ -104,6 +108,8 @@ def returnFirstImg(url,cop):
       for pagesize in page.find_all('a'):
         secondMenu.append(pagesize.get_text())
       maxNum =int(secondMenu[-2])
+      
+      print(maxNum)
       returnSecondImg(url,maxNum)
   except IOError:  
     print('error')    
